@@ -46,6 +46,14 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+        'students' => [
+            'driver' => 'jwt',
+            'provider' => 'students',
+        ],
+        'visacounsellors' => [
+            'driver' => 'jwt',
+            'provider' => 'visacounsellors',
+        ],
     ],
 
     /*
@@ -68,7 +76,15 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
+        ],
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Student::class,
+        ],
+        'visacounsellors' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\VisaCounsellor::class,
         ],
 
         // 'users' => [

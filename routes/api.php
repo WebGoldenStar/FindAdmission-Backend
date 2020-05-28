@@ -17,21 +17,46 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('register', 'UserController@register');
-Route::post('login', 'UserController@authenticate');
-Route::get('open', 'DataController@open');
+Route::group(['prefix' => 'visacounsellor','middleware' => ['assign.guard:visacounsellors']],function ()
+{
+	Route::post('register', 'VisaCounsellorController@register');
+    Route::post('login', 'VisaCounsellorController@authenticate');
+});
+Route::group(['prefix' => 'student','middleware' => ['assign.guard:students']],function ()
+{
+	Route::post('register', 'StudentController@register');
+    Route::post('login', 'StudentController@authenticate');
+});
 
-Route::group(['middleware' => ['jwt.verify']], function() {
-    Route::get('user', 'UserController@getAuthenticatedUser');
-    Route::post('updateExpertise', 'UserController@updateExpertise');
-    Route::post('updateTraining', 'UserController@updateTraining');
-    Route::post('updateLanguages', 'UserController@updateLanguages');
-    Route::post('updateFees', 'UserController@updateFees');
-    Route::post('updateProfile', 'UserController@updateProfile');
-    Route::post('updateProfileImage', 'UserController@updateProfileImage');
-    Route::post('sendVerificationCode', 'UserController@sendVerificationCode');
-    Route::post('checkVerificationCode', 'UserController@checkVerificationCode');
+Route::group(['prefix' => 'visacounsellor','middleware' => ['assign.guard:visacounsellors','jwt.verify']], function() {
+    Route::get('user', 'VisaCounsellorController@getAuthenticatedUser');
+    Route::post('updateExpertise', 'VisaCounsellorController@updateExpertise');
+    Route::post('updateTraining', 'VisaCounsellorController@updateTraining');
+    Route::post('updateLanguages', 'VisaCounsellorController@updateLanguages');
+    Route::post('updateFees', 'VisaCounsellorController@updateFees');
+    Route::post('updateProfile', 'VisaCounsellorController@updateProfile');
+    Route::post('updateProfileImage', 'VisaCounsellorController@updateProfileImage');
+    Route::post('sendVerificationCode', 'VisaCounsellorController@sendVerificationCode');
+    Route::post('checkVerificationCode', 'VisaCounsellorController@checkVerificationCode');
     
     Route::get('closed', 'DataController@closed');
+});
+Route::group(['prefix' => 'student','middleware' => ['assign.guard:students','jwt.verify']], function() {
+    Route::get('students', 'StudentController@getAuthenticatedStudents');
+    Route::post('updateVisaType', 'StudentController@updateVisaType');
+    Route::post('updateTravelHistory', 'StudentController@updateTravelHistory');
+    Route::post('updateFunding', 'StudentController@updateFunding');
+    Route::post('updateProposedStudy', 'StudentController@updateProposedStudy');
+    Route::post('updateLocation', 'StudentController@updateLocation');
+    Route::post('updateProfileImage', 'StudentController@updateProfileImage');
+    // Route::post('updateExpertise', 'VisaCounsellorController@updateExpertise');
+    // Route::post('updateTraining', 'VisaCounsellorController@updateTraining');
+    // Route::post('updateLanguages', 'VisaCounsellorController@updateLanguages');
+    // Route::post('updateFees', 'VisaCounsellorController@updateFees');
+    // Route::post('updateProfile', 'VisaCounsellorController@updateProfile');
+    // Route::post('updateProfileImage', 'VisaCounsellorController@updateProfileImage');
+    // Route::post('sendVerificationCode', 'VisaCounsellorController@sendVerificationCode');
+    // Route::post('checkVerificationCode', 'VisaCounsellorController@checkVerificationCode');
+    
 });
 

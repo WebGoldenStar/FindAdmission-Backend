@@ -1,12 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 use App\Traits\UploadTrait;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class Student extends Authenticatable implements JWTSubject
 {
     use Notifiable;
     /**
@@ -16,13 +16,16 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'firstname','lastname', 'email', 'country', 'company', 'phonenumber',
-        'whatsapp_number', 'gender', 'password', 'specialise_countries', 'countries_level',
-        'qualification_date_from', 'qualification_date_to', 'qualification_description',
-        'speak_languages', 'totalFee','profile_title', 'profile_overview', 'profile_image', 'phone_verification_number', 'phone_verified_at'
+        'whatsapp_number', 'gender', 'birthday', 'password', 'visa_country', 'visa_type',
+        'is_travelled_country', 'travelled_country_detail', 'is_refused_country',
+        'refused_country_detail', 'is_deported_country','deported_country_detail', 'personal_circumstances', 
+        "sponsoring_education", "is_excluding_tuition", "excluding_tuition_detail", "is_received_admission", 
+        "received_admission_detail", "study_course", "address", "state", 'profile_image'
     ];
     protected $casts = [
-        'speicalise_countries'=>'array',
-        'speak_languages'=>'array'
+        'visa_country'=>'array',
+        'personal_circumstances'=>'array',
+        'sponsoring_education'=>'array'
     ];
     /**
      * The attributes that should be hidden for arrays.

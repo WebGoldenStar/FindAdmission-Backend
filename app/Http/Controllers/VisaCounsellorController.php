@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\VisaCounsellor;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -12,7 +12,7 @@ use JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Twilio\Rest\Client;
 
-class UserController extends Controller
+class VisaCounsellorController extends Controller
 {
     use \App\Traits\UploadTrait;
 
@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         $whatsapp_number = "+".strval($request->get('wadialingcode')).strval($request->get('waphone'));
         $phone_number = "+".strval($request->get('dialingcode')).strval($request->get('phone'));
-        $user = User::create([
+        $user = VisaCounsellor::create([
             'firstname' => $request->get('fname'),
             'lastname' => $request->get('lname'),
             'email' => $request->get('email'),
@@ -72,7 +72,7 @@ class UserController extends Controller
     public function updateExpertise(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $user->specialise_countries = $request->get('specialiseCountries');
         $user->countries_level = $request->get('experienceLevelCountry');
         $user->save();
@@ -81,7 +81,7 @@ class UserController extends Controller
     public function updateTraining(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $user->training_from = $request->get('trainingFrom');
         $user->training_to = $request->get('trainingTo');
         $user->training_description = $request->get('trainingDescription');
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function updateLanguages(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $user->speak_languages = $request->get('speakLanguages');
         $user->save();
         return response(['error'=>false,'success_msg'=>"Success"],200);
@@ -99,7 +99,7 @@ class UserController extends Controller
     public function updateFees(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $user->totalFee = $request->get('totalFees');
         $user->save();
         return response(['error'=>false,'success_msg'=>"Success"],200);
@@ -107,7 +107,7 @@ class UserController extends Controller
     public function updateProfile(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $user->profile_title = $request->get('profileTitle');
         $user->profile_overview = $request->get('profileOverview');
         $user->save();
@@ -116,7 +116,7 @@ class UserController extends Controller
     public function updateProfileImage(Request $request)
     {
         
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $image = $request->file('profileImageFile');
         // return $image;  
         // dd($_FILES);
@@ -138,7 +138,7 @@ class UserController extends Controller
     public function sendVerificationCode(Request $request){
         // echo $request->get('specialiseCountries');
         // exit();
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
 
         $token = getenv("TWILIO_AUTH_TOKEN");
         $twilio_sid = getenv("TWILIO_SID");
@@ -152,7 +152,7 @@ class UserController extends Controller
         return response(['error'=>false,'success_msg'=>"Success"],200);
     }
     public function checkVerificationCode(Request $request){
-        $user = User::findOrFail($request->get('userId'));
+        $user = VisaCounsellor::findOrFail($request->get('userId'));
         $verificationCode = $request->get('verificationCode');
         $phoneVerifcationNumber = $request->get('phoneVerificationNumber');
 
